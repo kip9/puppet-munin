@@ -1,0 +1,6 @@
+[submodule "modules/php"]
+	path = modules/php
+	url = git://github.com/thias/puppet-php
+[submodule "modules/nginx"]
+	path = modules/nginx
+	url = git://github.com/thias/puppet-nginx
