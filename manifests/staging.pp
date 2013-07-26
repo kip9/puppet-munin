@@ -1,6 +1,12 @@
 # Install nginx
 include nginx
 
+# Configure default php-ini
+php::ini { '/etc/php.ini':
+  display_errors => 'On',
+  memory_limit   => '256M',
+}
+
 # Install PHP CLI
 include php::cli
 
