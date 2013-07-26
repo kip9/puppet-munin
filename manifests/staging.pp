@@ -1,3 +1,6 @@
+# Install nginx
+include nginx
+
 # Install PHP CLI
 include php::cli
 
