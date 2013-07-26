@@ -1,3 +1,7 @@
+user { 'nginx':
+  ensure => present,
+}
+
 # Install nginx
 include nginx
 
