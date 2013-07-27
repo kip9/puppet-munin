@@ -7,3 +7,6 @@
 [submodule "modules/mysql"]
 	path = modules/mysql
 	url = git@github.com:kip9/puppetlabs-mysql.git
+[submodule "modules/stdlib"]
+	path = modules/stdlib
+	url = git@github.com:kip9/puppetlabs-stdlib.git
