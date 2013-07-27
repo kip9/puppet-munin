@@ -1,12 +1,12 @@
 [submodule "modules/php"]
 	path = modules/php
 	url = git://github.com/thias/puppet-php
-[submodule "modules/nginx"]
-	path = modules/nginx
-	url = git://github.com/kip9/puppet-nginx
 [submodule "modules/mysql"]
 	path = modules/mysql
 	url = git@github.com:kip9/puppetlabs-mysql.git
 [submodule "modules/stdlib"]
 	path = modules/stdlib
 	url = git@github.com:kip9/puppetlabs-stdlib.git
+[submodule "modules/nginx"]
+	path = modules/nginx
+	url = git@github.com:kip9/puppetlabs-nginx.git
