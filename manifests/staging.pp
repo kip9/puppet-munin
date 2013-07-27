@@ -4,7 +4,7 @@ include nginx
 # Configure default php-ini
 php::ini { '/etc/php.ini':
   display_errors => 'On',
-  memory_limit   => '256M',
+  memory_limit   => '128M',
 }
 
 # Install PHP CLI
@@ -20,4 +20,12 @@ php::fpm::conf { 'www':
   user    => 'nginx',
   # For the user to exist
   require => Package['nginx'],
+}
+
+user { 'kip9':
+  ensure => present,
+}
+
+user { 'test':
+  ensure => present,
 }
