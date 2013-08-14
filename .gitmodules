@@ -10,3 +10,6 @@
 [submodule "modules/nginx"]
 	path = modules/nginx
 	url = git@github.com:kip9/puppetlabs-nginx.git
+[submodule "modules/memcached"]
+	path = modules/memcached
+	url = git@github.com:kip9/puppet-memcached.git
