@@ -5,6 +5,7 @@ include nginx
 php::ini { '/etc/php.ini':
   display_errors => 'On',
   memory_limit   => '128M',
+  date_timezone  => 'America/New_York',
 }
 
 # Install PHP CLI
@@ -22,10 +23,36 @@ php::fpm::conf { 'www':
   require => Package['nginx'],
 }
 
-user { 'kip9':
-  ensure => present,
+# Install mysql
+
+class { 'mysql::server':
+  config_hash => {
+    'root_password' => 'plainmade',
+    'default_engine' => 'InnoDB',
+  },
 }
 
-user { 'test':
-  ensure => present,
+# Setup barley database
+mysql::db { 'barley':
+  user  =>  'barley',
+  password  => 'plainmade',
+}
+
+# Setup hosts file
+host {'barley.plain':
+  ensure  =>  present,
+  ip      =>  '127.0.0.1',
+  name    =>  'barley.plain',
+}
+
+host {'demo.barley.plain':
+  ensure  =>  present,
+  ip      =>  '127.0.0.1',
+  name    =>  'demo.barley.plain',
+}
+
+host {'admin.barley.plain':
+  ensure  =>  present,
+  ip      =>  '127.0.0.1',
+  name    =>  'admin.barley.plain',
 }
