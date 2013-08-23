@@ -26,6 +26,7 @@
 #   [*rewrite_www_to_non_www*]  - Adds a server directive and rewrite rule to rewrite www.domain.com to domain.com in order to avoid
 #                             duplicate content (SEO);
 #   [*try_files*]           - Specifies the locations for files to be checked as an array. Cannot be used in conjuction with $proxy.
+#   [*incldues*]            - Adds specific includes to nginx config. Should be an array
 #
 # Actions:
 #
@@ -51,7 +52,7 @@ define nginx::resource::vhost(
   $ssl                    = false,
   $ssl_cert               = undef,
   $ssl_key                = undef,
-  $ssl_port		  = '443',
+  $ssl_port     = '443',
   $proxy                  = undef,
   $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
   $index_files            = ['index.html', 'index.htm', 'index.php'],
@@ -60,7 +61,8 @@ define nginx::resource::vhost(
   $rewrite_www_to_non_www = false,
   $location_cfg_prepend   = undef,
   $location_cfg_append    = undef,
-  $try_files              = undef
+  $try_files              = undef,
+  $includes               = undef
 ) {
 
   File {
@@ -85,7 +87,7 @@ define nginx::resource::vhost(
   # Use the File Fragment Pattern to construct the configuration files.
   # Create the base configuration file reference.
   if ($listen_port != $ssl_port) {
-    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
+    file { "${nginx::params::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $ensure ? {
         'absent' => absent,
         default  => 'file',
@@ -94,7 +96,7 @@ define nginx::resource::vhost(
       notify => Class['nginx::service'],
     }
   }
-  
+
   if ($ssl == 'true') and ($ssl_port == $listen_port) {
     $ssl_only = 'true'
   }
@@ -126,7 +128,7 @@ define nginx::resource::vhost(
   }
   # Create a proper file close stub.
   if ($listen_port != $ssl_port) {
-    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
+    file { "${nginx::params::nx_temp_dir}/nginx.d/${name}-699":
       ensure  => $ensure ? {
         'absent' => absent,
         default  => 'file',
@@ -138,7 +140,7 @@ define nginx::resource::vhost(
 
   # Create SSL File Stubs if SSL is enabled
   if ($ssl == 'true') {
-    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
+    file { "${nginx::params::nx_temp_dir}/nginx.d/${name}-700-ssl":
       ensure => $ensure ? {
         'absent' => absent,
         default  => 'file',
@@ -146,7 +148,7 @@ define nginx::resource::vhost(
       content => template('nginx/vhost/vhost_ssl_header.erb'),
       notify => Class['nginx::service'],
     }
-    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
+    file { "${nginx::params::nx_temp_dir}/nginx.d/${name}-999-ssl":
       ensure => $ensure ? {
         'absent' => absent,
         default  => 'file',

@@ -1,3 +1,8 @@
+<% if includes -%>
+  <% includes.each do |single_include| -%>
+  include <%= single_include %>;
+  <% end -%>
+<% end -%>
 }
 
 <% if rewrite_www_to_non_www %>

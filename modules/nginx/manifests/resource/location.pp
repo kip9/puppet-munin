@@ -16,7 +16,7 @@
 #   [*location_alias*]       - Path to be used as basis for serving requests for this location
 #   [*stub_status*]          - If true it will point configure module stub_status to provide nginx stats on location
 #   [*location_cfg_prepend*] - It expects a hash with custom directives to put before anything else inside location
-#   [*location_cfg_append*]  - It expects a hash with custom directives to put after everything else inside location   
+#   [*location_cfg_append*]  - It expects a hash with custom directives to put after everything else inside location
 #   [*try_files*]            - An array of file locations to try
 #   [*option*]               - Reserved for future use
 #
@@ -31,7 +31,7 @@
 #    location => '/bob',
 #    vhost    => 'test2.local',
 #  }
-#  
+#
 #  Custom config example to limit location on localhost,
 #  create a hash with any extra custom config you want.
 #  $my_config = {
@@ -101,7 +101,7 @@ define nginx::resource::location(
 
   ## Create stubs for vHost File Fragment Pattern
   if ($ssl_only != 'true') {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
+    file {"${nginx::params::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
       ensure  => $ensure_real,
       content => $content_real,
     }
@@ -109,7 +109,7 @@ define nginx::resource::location(
 
   ## Only create SSL Specific locations if $ssl is true.
   if ($ssl == 'true') {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
+    file {"${nginx::params::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
       ensure  => $ensure_real,
       content => $content_real,
     }
