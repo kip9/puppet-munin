@@ -1,0 +1,7 @@
+    error_log     /opt/nginx/logs/barley.staging/error.log;
+
+    # Add custom headers
+    add_header    X-ENV staging;
+    add_header    X-Server $hostname;
+    add_header    X-Hack "Hey you, obviously you are sneaky. Contact me at jeff@getbarley.com if you are interested in chatting.";
+    add_header    X-Frame-Options DENY;
