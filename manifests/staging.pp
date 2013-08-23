@@ -1,5 +1,10 @@
+###
+# Example staging node
+###
+
 # Install nginx
-include nginx
+include barley::nginx
+
 
 # Configure default php-ini
 php::ini { '/etc/php.ini':
