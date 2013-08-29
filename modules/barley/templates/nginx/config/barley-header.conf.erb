@@ -1,4 +1,8 @@
-    error_log     /opt/nginx/logs/barley.staging/error.log;
+### FILE MANAGED BY PUPPET ###
+    root          /var/www/barley.plain;
+    index         index.php index.html index.htm;
+    access_log    logs/barley.plain/access.log main;
+    error_log     logs/barley.plain/error.log;
 
     # Add custom headers
     add_header    X-ENV staging;
