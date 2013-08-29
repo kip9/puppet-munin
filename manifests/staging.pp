@@ -30,13 +30,31 @@ class { 'mysql::server':
   config_hash => {
     'root_password' => 'plainmade',
     'default_engine' => 'InnoDB',
+    'bind_address' => '0.0.0.0',
   },
 }
 
+$db_name = 'barley'
+$db_user = 'barley'
+$db_password = 'plainmade'
+
 # Setup barley database
-mysql::db { 'barley':
-  user  =>  'barley',
-  password  => 'plainmade',
+mysql::db { "${db_name}":
+  user  =>  "${db_user}",
+  password  => "${db_password}",
+}
+
+# External access to DB
+database_user { "${db_user}@%":
+  password_hash => mysql_password("${db_password}")
+}
+
+database_grant { "${db_user}@%":
+  privileges => ['all'] ,
+}
+
+database_grant { "${db_user}@%/${db_name}":
+  privileges => ['all'] ,
 }
 
 # Setup hosts file
