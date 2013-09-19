@@ -13,10 +13,11 @@ php::ini { '/etc/php.ini':
 }
 
 # Install mcrypt and mysql modules for php
-php::module { [ 'mcrypt', 'mysql' ]: }
+php::module { ['mcrypt', 'mysql']: }
 
 # Install FPM
 include php::fpm::daemon
+
 php::fpm::conf { 'www':
   listen  => '127.0.0.1:9000',
   user    => 'www-data',
@@ -28,10 +29,11 @@ php::fpm::conf { 'www':
 
 class { 'mysql::server':
   config_hash => {
-    'root_password' => 'plainmade',
+    'root_password'  => 'plainmade',
     'default_engine' => 'InnoDB',
-    'bind_address' => '0.0.0.0',
-  },
+    'bind_address'   => '0.0.0.0',
+  }
+  ,
 }
 
 $db_name = 'barley'
@@ -40,40 +42,46 @@ $db_password = 'plainmade'
 
 # Setup barley database
 mysql::db { "${db_name}":
-  user  =>  "${db_user}",
-  password  => "${db_password}",
+  user     => "${db_user}",
+  password => "${db_password}",
 }
 
 # External access to DB
-database_user { "${db_user}@%":
-  password_hash => mysql_password("${db_password}")
-}
+database_user { "${db_user}@%": password_hash => mysql_password("${db_password}") }
 
-database_grant { "${db_user}@%":
-  privileges => ['all'] ,
-}
+database_grant { "${db_user}@%": privileges => ['all'], }
 
-database_grant { "${db_user}@%/${db_name}":
-  privileges => ['all'] ,
-}
+database_grant { "${db_user}@%/${db_name}": privileges => ['all'], }
 
 # Setup hosts file
-host {'barley.plain':
-  ensure  =>  present,
-  ip      =>  '127.0.0.1',
-  name    =>  'barley.plain',
+host { 'barley-vagrant-base.vagrant.plainmade':
+  ensure       => present,
+  ip           => '127.0.0.1',
+  name         => 'barley-vagrant-base.vagrant.plainmade',
+  host_aliases => ['barley-vagrant-base',],
 }
 
-host {'demo.barley.plain':
-  ensure  =>  present,
-  ip      =>  '127.0.0.1',
-  name    =>  'demo.barley.plain',
+host { 'barley-vagrant-base':
+  ensure => absent,
+  name   => 'barley-vagrant-base',
 }
 
-host {'admin.barley.plain':
-  ensure  =>  present,
-  ip      =>  '127.0.0.1',
-  name    =>  'admin.barley.plain',
+host { 'barley.plain':
+  ensure => present,
+  ip     => '127.0.0.1',
+  name   => 'barley.plain',
+}
+
+host { 'demo.barley.plain':
+  ensure => present,
+  ip     => '127.0.0.1',
+  name   => 'demo.barley.plain',
+}
+
+host { 'admin.barley.plain':
+  ensure => present,
+  ip     => '127.0.0.1',
+  name   => 'admin.barley.plain',
 }
 
 # Install nginx
@@ -81,5 +89,16 @@ include barley::app
 
 # Install various tools
 class { 'barley::utils':
-
 }
+
+# Instal munin client
+class { 'munin::client':
+  allow => '127.0.0.1'
+}
+
+# Install munin for nginx
+class { 'barley::munin::nginx':
+}
+
+# Dependencies between munin and plugin
+Class['munin::client'] -> Class['barley::munin::nginx']

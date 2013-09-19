@@ -144,6 +144,14 @@ class barley::app {
     path        => ['/usr/bin', '/bin',],
   }
 
+    # Localhost maintenance/monitoring virtual Host
+  nginx::resource::vhost { 'localhost':
+    ensure       => present,
+    www_root     => '/var/www',
+    add_location => false,
+    server_name  => ['localhost', '127.0.0.1',],
+  }
+
   # App Virtual Host
   nginx::resource::vhost { 'barley.plain':
     ensure       => present,
@@ -155,24 +163,4 @@ class barley::app {
       ],
     add_location => false,
   }
-
-  # Localhost maintenance/monitoring virtual Host
-  nginx::resource::vhost { 'localhost':
-    ensure       => present,
-    www_root     => '/var/www',
-    add_location => false,
-  }
-
-  # Mod status
-  nginx::resource::location { 'localhost.status':
-    ensure              => 'present',
-    location            => '/status/',
-    stub_status         => true,
-    location_cfg_append => {
-      'access_log' => 'off',
-      'allow'      => '127.0.0.1'
-    },
-    vhost         => 'localhost',
-  }
-
 }
