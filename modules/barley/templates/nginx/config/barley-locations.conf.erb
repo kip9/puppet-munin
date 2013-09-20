@@ -23,14 +23,15 @@
     location ~* ^/robots.txt {
         access_log        off;
         log_not_found     off;
-        try_files /public/templates/$cookie_lopan/robots.txt /public/templates/$cookie_eggshen/robots.txt /robots.txt =404;
+        #try_files /public/templates/$cookie_lopan/robots.txt /public/templates/$cookie_eggshen/robots.txt /robots.txt =404;
+	try_files /public/templates/$template/robots.txt /robots.txt =404;    
     }
 
     # settings.json
     location ~* ^/settings.json {
         access_log        off;
         log_not_found     off;
-        try_files /public/templates/$template/settings.json /404 / =404;
+        try_files /public/templates/$template/settings.json =404;
     }
 
     # Barley Static Files
@@ -55,7 +56,7 @@
 	access_log        off;
         log_not_found     off;
         expires           max;        
-	try_files $uri $uri/ /public/templates/$cookie_lopan$uri /public/templates/$cookie_eggshen$uri /public/templates/$host$uri /proxy?host=$host&uri=$uri&args=$args /404 =404;
+	try_files $uri $uri/ /public/templates/$cookie_lopan$uri /public/templates/$cookie_eggshen$uri =404;
     }
 
     # Static Files
