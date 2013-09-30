@@ -128,6 +128,7 @@ class barley::app ($environment = 'staging') {
   }
 
   # App DB config
+  # FIXME commented out cause it's not working outside of vagrant
  # file { '/var/www/barley.plain/application/config/development/database.php':
  #   ensure  => 'present',
  #   owner   => "${nginx::params::nx_daemon_user}",
@@ -137,12 +138,12 @@ class barley::app ($environment = 'staging') {
  #   require => [ Database['barley'], ],
  # }
 
-  exec { 'barley_db_migrate':
-    cwd         => "${barley::params::app_dir}",
-    command     => 'php index.php migrations up',
-    environment => ['BARLEY_ENVIRONMENT=development',],
-    path        => ['/usr/bin', '/bin',],
-  }
+ # exec { 'barley_db_migrate':
+ #   cwd         => "${barley::params::app_dir}",
+ #   command     => 'php index.php migrations up',
+ #   environment => ['BARLEY_ENVIRONMENT=development',],
+ #   path        => ['/usr/bin', '/bin',],
+ # }
 
   # Localhost maintenance/monitoring virtual Host
   nginx::resource::vhost { 'localhost':
