@@ -82,7 +82,7 @@ class { 'barley::utils':
 
 # Instal munin client
 class { 'munin::client':
-  allow => '127.0.0.1'
+  allow => ['127.0.0.1',],
 }
 
 # Install munin for nginx
