@@ -1,6 +1,6 @@
 # # Barley extensions to regular nginx config
 # Contains barley specific configuration files
-class barley::app {
+class barley::app ($environment = 'staging') {
   Class['mysql::server'] -> Class['barley::app']
 
   # Require PHP CLI
@@ -144,7 +144,7 @@ class barley::app {
     path        => ['/usr/bin', '/bin',],
   }
 
-    # Localhost maintenance/monitoring virtual Host
+  # Localhost maintenance/monitoring virtual Host
   nginx::resource::vhost { 'localhost':
     ensure       => present,
     www_root     => '/var/www',
