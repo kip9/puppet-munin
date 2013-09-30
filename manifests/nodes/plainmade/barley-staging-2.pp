@@ -1,4 +1,4 @@
-node barley-staging-2.plainmade {
+node 'barley-staging-2.plainmade' {
 ###
 # Example staging node
 ###
