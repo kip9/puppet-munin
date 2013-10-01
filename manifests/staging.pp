@@ -85,7 +85,14 @@ host { 'admin.barley.plain':
 }
 
 # Install nginx
-include barley::app
+class { 'barley::app':
+
+}
+
+# Install db
+class { 'barley::app::db':
+
+}
 
 # Install various tools
 class { 'barley::utils':
